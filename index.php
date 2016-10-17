@@ -208,8 +208,8 @@ if (isset($_POST['code'])) {
             </div>
             <div class="footer">
               php-console v<?php echo PHP_CONSOLE_VERSION ?> - by
-              <a href="http://seld.be/">Jordi Boggiano</a> -
-              <a href="http://github.com/Seldaek/php-console">sources on github</a>
+              <a href="http://mikesprague.me/">Mike Sprague</a> -
+              <a href="https://github.com/mikesprague/php-console">sources on github</a>
             </div>
         </div>
     </body>
