@@ -135,7 +135,7 @@ if (isset($_POST['code'])) {
         <link rel="stylesheet" type="text/css" href="styles.css" />
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.0.0/jquery-migrate.js" integrity="sha256-aMjiiYtQDaPPLj8A9EwJjh8dzP6iyo9pgcSjLaIYTnc=" crossorigin="anonymous"></script>
-        <script src="ace/ace.js" charset="utf-8"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js" integrity="sha256-xx76EmQ2A+LP9GzPIVjY5UDJJMbR/BSiTvMWi0as4/I=" crossorigin="anonymous"></script>
         <script src="ace/mode-php.js" charset="utf-8"></script>
         <script src="php-console.js"></script>
         <script>
