@@ -1,8 +1,18 @@
 <?php
+define('PHP_CONSOLE_VERSION', '1.5.0-dev');
+require 'krumo/class.krumo.php';
+require 'lib/MelodyPlugin.php';
+require 'vendor/autoload.php';
+
+ini_set('log_errors', 0);
+ini_set('display_errors', 1);
+error_reporting(E_ALL | E_STRICT);
+
+$debugOutput = '';
 
 $defaults = array(
     // how many spaces to use for indention, 0 will make it use real tabs
-    'tabsize' => 4,
+    'tabsize' => 2,
 
     // whitelist of IPs which don't need to be authenticated
     // use '*' to allow any IP
@@ -43,17 +53,6 @@ if (!in_array('*', $options['ip_whitelist'], true) &&
     header('HTTP/1.1 401 Access unauthorized');
     die('ERR/401 Go Away');
 }
-
-define('PHP_CONSOLE_VERSION', '1.5.0-dev');
-require 'krumo/class.krumo.php';
-require 'lib/MelodyPlugin.php';
-require 'vendor/autoload.php';
-
-ini_set('log_errors', 0);
-ini_set('display_errors', 1);
-error_reporting(E_ALL | E_STRICT);
-
-$debugOutput = '';
 
 function runCode($__source_code, $__bootstrap_file)
 {
@@ -100,7 +99,7 @@ if (isset($_POST['code'])) {
     if ($melodyPlugin->isMelodyScript($code)) {
         if ($melodyPlugin->isScriptingSupported()) {
             // make sure krumo class is available in the melody script
-            $code = str_replace('CONFIG;', "CONFIG;\nrequire 'krumo/class.krumo.php';", $code );
+            $code = str_replace('CONFIG;', "CONFIG;\nrequire 'krumo/class.krumo.php';", $code);
             $melodyPlugin->runScript($code, $options['bootstrap']);
         } else {
             throw new Exception('php-console misses required dependencies to run melody scripts.');
@@ -139,9 +138,11 @@ if (isset($_POST['code'])) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>Debug Console</title>
         <link rel="stylesheet" type="text/css" href="styles.css" />
-        <script src="jquery-1.9.1.min.js"></script>
-        <script src="ace/ace.js" charset="utf-8"></script>
-        <script src="ace/mode-php.js" charset="utf-8"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.0.0/jquery-migrate.js" integrity="sha256-aMjiiYtQDaPPLj8A9EwJjh8dzP6iyo9pgcSjLaIYTnc=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.13/clipboard.min.js" integrity="sha256-+sAqluh9mvqgzLkzSQwoE4bW87OXHkGcdH/W4fWHXh8=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js" integrity="sha256-xx76EmQ2A+LP9GzPIVjY5UDJJMbR/BSiTvMWi0as4/I=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/mode-php.js" integrity="sha256-cU3qYGRABOmoHIeP0eEbtP+a0GC3cm4c/4j7NblapzY=" crossorigin="anonymous"></script>
         <script src="php-console.js"></script>
         <script>
             $.console({
@@ -153,35 +154,37 @@ if (isset($_POST['code'])) {
         <div class="console-wrapper">
             <div class="input-wrapper">
                 <form method="POST" action="">
-                    <div class="input">
-                        <textarea class="editor" id="editor" name="code"><?php echo (isset($_POST['code']) ? htmlentities($_POST['code'], ENT_QUOTES, 'UTF-8') : "&lt;?php\n\n") ?></textarea>
-                    </div>
-                        <div class="statusbar">
-                            <span class="position">Line: 1, Column: 1</span>
-                            <span class="copy">
-                                Copy selection: <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="110" height="14" id="clippy">
-                                    <param name="movie" value="clippy/clippy.swf"/>
-                                    <param name="allowScriptAccess" value="always" />
-                                    <param name="quality" value="high" />
-                                    <param name="scale" value="noscale" />
-                                    <param NAME="FlashVars" value="text=">
-                                    <param name="bgcolor" value="#E8E8E8">
-                                    <embed src="clippy/clippy.swf"
-                                           width="110"
-                                           height="14"
-                                           name="clippy"
-                                           quality="high"
-                                           allowScriptAccess="always"
-                                           type="application/x-shockwave-flash"
-                                           pluginspage="http://www.macromedia.com/go/getflashplayer"
-                                           FlashVars="text="
-                                           bgcolor="#E8E8E8"
-                                    />
-                                </object>
-                            </span>
-                            <a href="" class="reset">Reset</a>
-                            <span class="runtime-info"></span>
-                        </div>
+                  <div class="input">
+                    <textarea class="editor" id="editor" name="code">
+                      <?php echo (isset($_POST['code']) ? htmlentities($_POST['code'], ENT_QUOTES, 'UTF-8') : "&lt;?php\n\n") ?>
+                    </textarea>
+                  </div>
+                  <div class="statusbar">
+                      <span class="position">Line: 1, Column: 1</span>
+                      <span class="copy">
+                          Copy selection: <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="110" height="14" id="clippy">
+                              <param name="movie" value="clippy/clippy.swf"/>
+                              <param name="allowScriptAccess" value="always" />
+                              <param name="quality" value="high" />
+                              <param name="scale" value="noscale" />
+                              <param NAME="FlashVars" value="text=">
+                              <param name="bgcolor" value="#E8E8E8">
+                              <embed src="clippy/clippy.swf"
+                                     width="110"
+                                     height="14"
+                                     name="clippy"
+                                     quality="high"
+                                     allowScriptAccess="always"
+                                     type="application/x-shockwave-flash"
+                                     pluginspage="http://www.macromedia.com/go/getflashplayer"
+                                     FlashVars="text="
+                                     bgcolor="#E8E8E8"
+                              />
+                          </object>
+                      </span>
+                      <a href="" class="reset">Reset</a>
+                      <span class="runtime-info"></span>
+                  </div>
                     <input type="submit" name="subm" value="Try this!" />
                 </form>
             </div>
@@ -210,7 +213,9 @@ if (isset($_POST['code'])) {
                     \n line breaks (\r\n etc work too)
             </div>
             <div class="footer">
-                php-console v<?php echo PHP_CONSOLE_VERSION ?> - by <a href="http://seld.be/">Jordi Boggiano</a> - <a href="http://github.com/Seldaek/php-console">sources on github</a>
+              php-console v<?php echo PHP_CONSOLE_VERSION ?> - by
+              <a href="http://mikesprague.me/">Mike Sprague</a> -
+              <a href="https://github.com/mikesprague/php-console">sources on github</a>
             </div>
         </div>
     </body>

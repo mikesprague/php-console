@@ -2,7 +2,7 @@
 
 return array(
     // how many spaces to use for indention, 0 will make it use real tabs
-    'tabsize' => 4,
+    'tabsize' => 2,
 
     // whitelist of IPs which don't need to be authenticated
     // use '*' to allow any IP
@@ -14,5 +14,5 @@ return array(
     'bootstrap' => null,
 
     // maximun execution time for melody scripts
-    'melody_timeout' => 600,    
+    'melody_timeout' => 600,
 );
